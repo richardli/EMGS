@@ -57,7 +57,7 @@ SEXP _EMGS(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r, SE
     cube tau_out(M, M, L);
     vec thetas(L);
  	vec itr(L);
-
+   
     // temporary output to be removed later
     cube Edpath(M, M, 500);
 
@@ -66,6 +66,11 @@ SEXP _EMGS(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r, SE
     double v0, eps, EZsum, tempo;
     // double v;
     mat u(M-1, M-1);
+    uvec pseq(M);
+    for(i = 0; i < M; i++){
+     pseq(i) = i;
+    }
+
 		
     for(i = 0; i < L; i++){
     	v0 = v0s[i];
@@ -109,7 +114,7 @@ SEXP _EMGS(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r, SE
             }
 
 			// M-step
-			omega_update = M_omega(N, M, omega_new, S, lambda, Ed_new);
+			omega_update = M_omega(N, M, omega_new, S, lambda, Ed_new, pseq);
             if(exist_group > 0){
                 tau = M_tau(exist_group, M, group, Ed_new,omega_update, tau, a_tau, b_tau);
             }

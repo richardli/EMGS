@@ -5,6 +5,6 @@
 using namespace Rcpp;
 using namespace arma;
 
-mat M_omega_sample(int N, int M, mat &omega, mat &S, double lambda, mat &Ed) ;
+mat M_omega_sample(int N, int M, mat &omega, mat &S, double lambda, mat &Ed, uvec pseq) ;
 
 #endif

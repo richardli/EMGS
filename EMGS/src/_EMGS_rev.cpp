@@ -67,6 +67,11 @@ SEXP EMGS_rev(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r,
     double v0, eps, eps0, EZsum, tempo;
     mat u(M-1, M-1);
 	cube tmp(M, M, 2);
+    uvec pseq(M);
+    for(i = 0; i < M; i++){
+     pseq(i) = i;
+    }
+
 
     for(i = 0; i < L; i++){
     	v0 = v0s[i];
@@ -101,7 +106,7 @@ SEXP EMGS_rev(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r,
             omega_update = omega_current * (1-tempo);
             omega_2_update = square(omega_2_current) * (1-tempo);
             for(tt=0; tt < 1; tt++){
-                omega_new = M_omega_sample(N, M, omega_current, S, lambda, Ed_new);
+                omega_new = M_omega_sample(N, M, omega_current, S, lambda, Ed_new, pseq);
                 omega_update += omega_new * tempo / (1.0);
                 omega_2_update += square(omega_new) * tempo / (1.0);
             }
