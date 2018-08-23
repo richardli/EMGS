@@ -1,10 +1,11 @@
 ######################################################################
 # This script reproduces the motivating example
 ######################################################################
+# install.packages("../EMGS_1.0.tar.gz", type = "source", repos = NULL)
 library(EMGS)
 library(huge)
 library(tmvtnorm)
-
+# sourceCpp("../EMGS/src/_EMGS.cpp")
 N <- 100
 M <- 10
 Prec <- matrix(0, M, M)
