@@ -1,8 +1,8 @@
 Package: EMGS
 Type: Package
 Title: ECM method for Gaussian graphical model selection
-Version: 1.0
-Date: 2017-05-22
+Version: 0.0.2
+Date: 2019-01-24
 Author: Zehang Li
 Maintainer: Zehang Li <lizehang@uw.edu>
 Description: An implementation of the methods described in Li and McCormick (2017) <arXiv:1709.06970>

@@ -5,6 +5,6 @@
 using namespace Rcpp;
 using namespace arma;
 
-mat Get_expectation(int M, mat &omega, double v0, double v1, double theta) ;
+mat Get_expectation(int M, mat &omega, double v0, double v1, double theta, mat &tau) ;
 
 #endif

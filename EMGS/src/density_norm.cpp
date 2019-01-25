@@ -15,6 +15,13 @@ vec density_norm_log(vec &x, double mu, double sigma){
   return dens;
 }
 
+
+vec density_norm_log_var(vec &x, double mu, vec &sigma2){
+  vec dens = -0.5*log(sigma2*2*PI) ;    
+  dens += -square(x-mu)/(2 * sigma2); 
+  return dens;
+}
+
 vec pnorm(vec x){
 
   vec value=x/(sqrt(2));

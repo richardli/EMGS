@@ -132,3 +132,51 @@ getROC <- function(path, G){
 	tfpr <- tfpr[order(tfpr[, 2], tfpr[, 1]), ]
 	return(tfpr)
 }
+
+###########################################################################
+Threshold <- function(prec, nedge){
+	tmp <- prec
+	diag <- diag(prec)
+	tmp[!lower.tri(tmp)] <- NA
+	thre <- sort(abs(as.numeric(tmp)), decreasing = TRUE)[nedge]
+	prec[abs(prec) < thre] <- NA
+	diag(prec) <- diag
+	return(prec)
+}
+
+###########################################################################
+getROCthres <- function(prec, G){
+	diag(prec) <- NA
+	diag(G) <- NA
+	# cut <- sort(abs(prec))
+	# tfpr <- matrix(0, length(cut), 2)
+	# colnames(tfpr) <- c("TPR", "FPR")
+	# for(i in 1:length(cut)){
+	# 	pred <-  prec
+	# 	pred[abs(prec) <= cut[i]] <- 0
+	# 	tfpr[i, 1] <- length(intersect(which(pred != 0), which(G != 0))) / length(which(G == 1))
+	# 	tfpr[i, 2] <- length(intersect(which(pred != 0), which(G == 0))) / length(which(G == 0))
+	# }
+	# tfpr <- rbind(c(0, 0), tfpr, c(1, 1))
+	# tfpr <- tfpr[order(tfpr[, 2], tfpr[, 1]), ]
+	# return(tfpr)
+	pred <- prediction(as.numeric(abs(prec)), as.numeric(G))
+	tfpr <- cbind(TPR = performance(pred, "tpr")@y.values[[1]],
+					FPR = performance(pred, "fpr")@y.values[[1]]) 
+	AUC <- performance(pred, "auc")@y.values[[1]]
+	return(list(tfpr=tfpr, AUC=AUC))
+}
+
+###########################################################################
+getROCpath <- function(path, G){
+	if(length(dim(path)) == 3){
+		tmp <- vector("list", dim(path)[3])
+		for(i in 1:length(tmp)) tmp[[i]] <- path[,,i]
+	}else{
+		tmp <- path
+	}
+	tmp[[length(tmp) + 1]] <- matrix(0, dim(tmp[[1]])[1], dim(tmp[[1]])[2])
+	tmp[[length(tmp) + 1]] <- matrix(1, dim(tmp[[1]])[1], dim(tmp[[1]])[2])
+	roc <- huge.roc(tmp, theta = G, verbose = FALSE)
+	return(roc)
+}

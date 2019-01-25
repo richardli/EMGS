@@ -8,7 +8,7 @@ using namespace Rcpp;
 using namespace arma;
 
 // debug [[Rcpp::export]]
-mat Estimate_S(int N, int M, mat &omega, int Sitr, umat &ranks, uvec &mranks, mat &ZZ){
+mat Estimate_S(int N, int M, mat &omega, int Sitr, umat &ranks, uvec &mranks, mat &ZZ, uvec pseq){
 	// cout << N << endl;
 	// cout << M << endl;
 	// cout << X.row(0) << endl;
@@ -38,32 +38,30 @@ mat Estimate_S(int N, int M, mat &omega, int Sitr, umat &ranks, uvec &mranks, ma
 	double lower, upper;
 	mat mean = zeros<mat>(1,1);
 	mat var = zeros<mat>(1,1);
-	rowvec sigma_j = zeros<rowvec>(M);
-	vec sigma_j_mj = zeros<vec>(M-1);
+	rowvec omega_j = zeros<rowvec>(M);
+	vec omega_j_mj = zeros<vec>(M-1);
+	vec inv_times_sigma_j_mj = zeros<vec>(M-1);
 	rowvec ZZ_i = zeros<rowvec>(M);
 	vec ZZ_i_mj = zeros<vec>(M-1);
 	uvec mj = zeros<uvec>(M);
 	mat ZZmean = zeros<mat>(N, M);
 
-	// shuffle the indices
-	vec v(M);
-	std::iota(v.begin(), v.end(), 0);
 
-	// calculate Sinv first
-	for(j = 0; j < M; j++){
-		mj = find(v != j);
-		Sinv.slice(j) = inv(sigma.submat(mj, mj));
-		//Rcout << Sinv.slice(j) << endl;
-		// omega.submat(0, 0, M-2, M-2) - omega.submat(0, M-1, M-2, M-1) * omega.submat(M-1, 0, M-1, M-2) / omega(M-1, M-1);
-	}
+	// // calculate Sinv first
+	// for(j = 0; j < M; j++){
+	// 	mj = find(pseq != j);
+	// 	Sinv.slice(j) = inv(sigma.submat(mj, mj));
+	// 	//Rcout << Sinv.slice(j) << endl;
+	// 	// omega.submat(0, 0, M-2, M-2) - omega.submat(0, M-1, M-2, M-1) * omega.submat(M-1, 0, M-1, M-2) / omega(M-1, M-1);
+	// }
 	
 
 	for(m = 0; m < Sitr; m++){
 	
-        vec indices = shuffle(v);
+        // vec indices = shuffle(pseq);
 
 		for(jj = 0; jj < M; jj++){
-			j = indices(jj);
+			j = jj;
 
 			vec tmp = zeros<vec>(mranks(j));
 			for(r = 0; r < mranks(j); r++){
@@ -81,18 +79,18 @@ mat Estimate_S(int N, int M, mat &omega, int Sitr, umat &ranks, uvec &mranks, ma
 					upper = min(upper, ZZ(pos_upper(k), j));
 				}
 				// Calculate values for conditional mean and SD
-				sigma_j = sigma.row(j);
-				mj = find(v != j);
-				sigma_j_mj = sigma_j.elem(mj);
-				
+				omega_j = omega.row(j);
+				mj = find(pseq != j);
+				omega_j_mj = omega_j.elem(mj);
+				// var = sigma(j, j) - sigma_j_mj.t() * Sinv.slice(j) * sigma_j_mj;
+				var = 1/omega(j, j);
+				inv_times_sigma_j_mj = -1/omega(j,j) * omega_j_mj;
 
 				// Sample all variables
 				for(k = 0; k < pos_current.n_elem; k++){
 					ZZ_i = ZZ.row(pos_current(k));
-					ZZ_i_mj = ZZ_i.elem(mj);
-					
-					mean = ZZ_i_mj.t() * Sinv.slice(j) * sigma_j_mj;
-					var = sigma(j, j) - sigma_j_mj.t() * Sinv.slice(j) * sigma_j_mj;
+					ZZ_i_mj = ZZ_i.elem(mj);	
+					mean = ZZ_i_mj.t() * inv_times_sigma_j_mj;
 					
 					// Rcout << pos_current(k) << j << mean << "-" << var << endl;
 					tmpF = runif(1, 

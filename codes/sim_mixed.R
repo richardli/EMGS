@@ -16,7 +16,7 @@ source("../codes/BDgraph_sim_func.R")
 ##########################################################################
 config <- NULL
 ns <- c(50)
-ps <- c(50)
+ps <- c(50, 100, 200)
 simtypes <- c("AR1", "AR2", "random", "cluster")
 Nsim <- 10
 config <- expand.grid(ns, ps, simtypes, stringsAsFactors = FALSE)
@@ -39,8 +39,8 @@ for(itr in 1:Nsim){
 config <- NULL
 ns <- c(50)
 ps <- c(50)
-simtypes <- "random"  # c("AR1", "AR2", "random", "cluster")
-reps <- 1:10
+simtypes <- "AR2"  # c("AR1", "AR2", "random", "cluster")
+reps <- 1:1
 config <- expand.grid(ns, ps, simtypes, reps, stringsAsFactors = FALSE)
 allindex <- 1:dim(config)[1]
 
@@ -60,7 +60,7 @@ a <- 1
 b <- 1
 lambda <- 1
 Prec <- sim$K  
-out <- EMGS(as.matrix(X), v0s, v1, lambda, a, b, 0.01, 1e4, verbose = TRUE, copula = TRUE, copula_itr = p)
+out <- EMGS(as.matrix(X), v0s, v1, lambda, a, b, 0.01, 1e4, verbose = TRUE, copula = TRUE, copula_itr = 20)
 transform <- huge.npn(X)
 out.npn = huge(transform, method = "glasso", nlambda=40,lambda.min.ratio = 0.4)
 # bdgraph.obj <- bdgraph(data = sim, iter = 1e4, method = "gcgm")

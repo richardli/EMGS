@@ -119,7 +119,7 @@ SEXP EMGS_rev(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r,
             omega_new = omega_update;
 
             // M-step
-			EZ_update = Get_expectation(M, omega_2_current, v0, v1, theta);
+			EZ_update = Get_expectation(M, omega_2_current, v0, v1, theta, tau);
             EZ_update.elem( find(EZ_update > 0.5) ).ones();
             EZ_update.elem( find(EZ_update < 0.5) ).zeros();
 			//Rcout << "EZ_update = \n" << EZ_update << endl;
@@ -134,7 +134,7 @@ SEXP EMGS_rev(SEXP X_r, SEXP S_r, SEXP v0_r, SEXP v1_r, SEXP lambda_r, SEXP a_r,
                // this function also updates Z
                //Rcout << "omega_new = \n" << omega_new << endl;
                //Rcout << "ZZ0 = \n" << ZZ.row(0) << endl;
-               S = Estimate_S(N, M, omega_2_current, Sitr, ranks, mranks, ZZ);
+               S = Estimate_S(N, M, omega_2_current, Sitr, ranks, mranks, ZZ, pseq);
                S = Scurrent*(1-tempo) + S*tempo;
                Scurrent = S;
                //Rcout << "S new = \n" << S << endl;

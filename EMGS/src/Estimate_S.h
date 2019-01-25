@@ -5,6 +5,6 @@
 using namespace Rcpp;
 using namespace arma;
 
-mat Estimate_S(int N, int M, mat &omega, int Sitr, umat &ranks, uvec &mranks, mat &ZZ) ;
+mat Estimate_S(int N, int M, mat &omega, int Sitr, umat &ranks, uvec &mranks, mat &ZZ, uvec pseq) ;
 
 #endif
