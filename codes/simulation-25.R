@@ -1,0 +1,24 @@
+library(EMGS)
+library(tmvtnorm)
+library(mvtnorm)
+library(glasso)
+library(ROCR)
+library(huge)
+library(BDgraph)
+library(truncnorm)
+library(Rcpp)
+source("../codes/BDgraph_sim_func.R")
+index <- 1
+index <- as.numeric(commandArgs(trailingOnly = TRUE)[1])
+config <- NULL
+ns <- c(100, 200, 500)
+ps <- 25
+misses <- c("AR1", "AR2", "random", "cluster")
+reps <- 1:100
+config <- expand.grid(ns, ps, misses, reps)
+
+allindex <- which(c(1:dim(config)[1]) %% 200 == index)
+
+for(index in allindex){
+	source("simulation-core.R")
+}
