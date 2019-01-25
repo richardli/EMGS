@@ -148,18 +148,6 @@ Threshold <- function(prec, nedge){
 getROCthres <- function(prec, G){
 	diag(prec) <- NA
 	diag(G) <- NA
-	# cut <- sort(abs(prec))
-	# tfpr <- matrix(0, length(cut), 2)
-	# colnames(tfpr) <- c("TPR", "FPR")
-	# for(i in 1:length(cut)){
-	# 	pred <-  prec
-	# 	pred[abs(prec) <= cut[i]] <- 0
-	# 	tfpr[i, 1] <- length(intersect(which(pred != 0), which(G != 0))) / length(which(G == 1))
-	# 	tfpr[i, 2] <- length(intersect(which(pred != 0), which(G == 0))) / length(which(G == 0))
-	# }
-	# tfpr <- rbind(c(0, 0), tfpr, c(1, 1))
-	# tfpr <- tfpr[order(tfpr[, 2], tfpr[, 1]), ]
-	# return(tfpr)
 	pred <- prediction(as.numeric(abs(prec)), as.numeric(G))
 	tfpr <- cbind(TPR = performance(pred, "tpr")@y.values[[1]],
 					FPR = performance(pred, "fpr")@y.values[[1]]) 

@@ -1,4 +1,3 @@
-
 ## Visualization of correlation matrix
 corrwraper <- function(mat, title, group, lim){
     if(!is.null(group)){

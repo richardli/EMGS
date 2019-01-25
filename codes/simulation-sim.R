@@ -4,9 +4,10 @@ ns <- c(100, 200, 500)
 ps <- c(25, 50, 100, 200)
 misses <- c("AR1", "AR2", "random", "cluster")
 config <- expand.grid(ns, ps, misses)
+Nitr <- 1
 
 set.seed(123456)
-for(itr in 1:100){
+for(itr in 1:Nitr){
 	cat(".")
 	for(index in 1:dim(config)[1]){
 		args_in <- config[index, ]

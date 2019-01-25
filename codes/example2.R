@@ -6,7 +6,7 @@ library(huge)
 library(BDgraph)
 library(truncnorm)
 library(corrplot)
-source("../codes/BDgraph_sim_func.R")
+source("../codes/functions.R")
 
 ######################################################################
 # Simulate three-block precision matrix and data

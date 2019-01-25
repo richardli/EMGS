@@ -1,12 +1,10 @@
 ######################################################################
 # This script reproduces the motivating example
 ######################################################################
-# install.packages("../EMGS_1.0.tar.gz", type = "source", repos = NULL)
 set.seed(123)
 library(EMGS)
 library(huge)
 library(tmvtnorm)
-# sourceCpp("../EMGS/src/_EMGS.cpp")
 N <- 100
 M <- 10
 Prec <- matrix(0, M, M)
@@ -17,7 +15,6 @@ for(i in 2:M){
 }
 nedge <- (sum(Prec != 0)-M)/2
 diag(Prec) <- 1
-# Prec <- Prec * 2
 Sigma <- solve(Prec)
 X <- rtmvnorm(n = N, mean = rep(0, M), sigma = Sigma)
 ################################################################
@@ -70,23 +67,6 @@ for(i in 2:M){
 abline(h = 0, col = "red", lty = 2)
 abline(h = 0.5, col = "red", lty = 2)
 legend("bottomright", lty = c(1, 4), col = c("darkblue", "darkgreen"), c("Edges", "Non-edges"))
-
- 
-# plot(v0s, rep(0, length(v0s)), ylim = range(c(-.3, omega_path0, omega_path_glasso0), na.rm = TRUE), col = "white", xlab = "v0", main = "EMGS: thresholded\nto have 9 edges", ylab = "- Partial correlation")
-# abline(v = fit.cv$v0.min,  lty = 4)
-# for(i in 2:M){
-# 	for(j in 1:(i-1)){
-# 		if(abs(Prec[i, j]) > 1e-5){
-# 			lines(v0s, omega_path0[, i, j] * (prob_path[, i, j] > 0.5), type = "l", col = "darkblue")
-# 		}
-# 		if(abs(Prec[i, j]) <= 1e-5){
-# 			lines(v0s, omega_path0[, i, j] * (prob_path[, i, j] > 0.5), type = "l", col = "darkgreen", lty = 4)
-# 		}
-# 	}
-# }
-# abline(h = 0, col = "red", lty = 2)
-# abline(h = 0.5, col = "red", lty = 2)
-# legend("bottomright", lty = c(1, 4), col = c("darkblue", "darkgreen"), c("Edges", "Non-edges"))
 
 plot(glasso.fit$lambda, rep(0, length(glasso.fit$lambda)), ylim = range(c(-.3, omega_path0, omega_path_glasso0), na.rm = TRUE), col = "white", xlab = "rho", main = "Graphical Lasso", ylab = "- Partial correlation")
 abline(v = glasso.cv$rho.min, lty = 4)

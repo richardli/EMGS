@@ -21,9 +21,22 @@ source("example1.R")
 ## Second example
 This example demonstrates the informative priors. It creates a plot (structure.pdf) under the figures/ directory.
 ```
-setwd("codes/")
 source("example2.R")
 ```
 
+## Third example
+This example demonstrates the missing data imputation for Burke Gilman Trail example. It creates a plot (burke.pdf) under the figures/ directory. For quicker illustration, this example models only two blocks by combining the pedestrians and bikes from both directions instead of modeling four blocks.
+```
+source("example3.R")
+```
+
+
+
 ## Simulation studies
-Running the full version of the simulation as described in the paper takes a long time and is recommended to be implemented on a cluster. However the sim_gaussian.R and sim_mixed.R provide small examples with a few replications. 
+Running the full version of the simulation as described in the paper takes a long time and is recommended to be implemented on a cluster. Below is a low dimensional example.
+```
+source("simulation-sim.R")
+source("simulation-example.R")
+```
+
+

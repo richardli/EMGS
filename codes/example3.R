@@ -1,4 +1,3 @@
-
 library(EMGS)
 library(plyr)
 library(huge)
@@ -14,7 +13,7 @@ dat <- dat[dat$Date < strptime("1/1/15 0:00", format = "%m/%d/%y %H:%M"), ]
 dat <- dat[!is.na(dat$Date), ]
 dat$Day <- as.numeric(trunc(difftime(dat$Date, min(dat$Date), units = "day"))) + 1
 dat$hour <- as.character(format(dat$Date,   "%H"))
-p <- c("small", "large")[2]
+p <- c("small", "large")[1]
 
 if(p =="large"){
 	##########################################################
@@ -99,10 +98,10 @@ dev.off()
 
 
 ####################################################
-## Missing Data
+## Missing Data Prediction
 ####################################################
 set.seed(1234)
-Nitr <- 100
+Nitr <- 1
 mse <- matrix(NA, Nitr, 4)
 for(itr in 1:Nitr){
 	Ymiss <- log(dat2+1)
@@ -140,48 +139,4 @@ for(itr in 1:Nitr){
 	message(apply(mse, 2, mean, na.rm = TRUE))
 	message(apply(mse, 2, sd, na.rm = TRUE))
 }
-
-
-
-
-
-
-
-# ll <- apply(outcv$ll, 1, mean)
-# plot(v0s, ll, xlab = "v0", ylab = "negative log likelihood", type = "b", main = "Exchangeable prior")
-# points(outcv$v0.min, ll[which(v0s == outcv$v0.min)], col = "red", pch = 20)
-# abline(v = outcv$v0.min, lty=3, col="grey20")
-
-# ll1 <- apply(outcv1$ll, 1, mean)
-# plot(v0s, ll1, xlab = "v0", ylab = "negative log likelihood", type = "b", main = "Structured prior")
-# points(outcv1$v0.min, ll1[which(v0s == outcv1$v0.min)], col = "red", pch = 20)
-# abline(v = outcv1$v0.min, lty=3, col="grey20")
-
-# ll2 <- apply(outcv2$ll, 1, mean)
-# rholist <- outcv2$rholist
-# plot(log(rholist), ll2, xlab = "log lambda", ylab = "negative log likelihood", type = "b", main = "Graphical lasso")
-# points(log(outcv2$rho.min), ll2[which(rholist == outcv2$rho.min)], col = "red", pch = 20)
-# abline(v = log(outcv2$rho.min), lty=3, col="grey20")
-# which.min(ll2)
-
-# t1 = as.matrix(outcv$fit.min$omega[,,1])
-# t2 = as.matrix(outcv1$fit.min$omega[,,1])
-# e1 = as.matrix(outcv$fit.min$path[,,1])
-# e2 = as.matrix(outcv1$fit.min$path[,,1])
-# diag(t1) <- diag(t2) <- diag(e1) <- diag(e2) <- NA
-# outcv1$fit.min$tau_compact
-# tt <- NULL
-# for(i in 1:dim(e1)[1]){
-# 	for(j in 1:dim(e1)[2]){
-# 		if(i<j && e1[i, j] != e2[i, j]){
-# 			tt <- rbind(tt, c(i, j, ifelse(e1[i, j] > e2[i, j], 1, 2)))
-# 		}
-# 	}
-# }
-# tt <- data.frame(tt)
-# tt$g1 <- groups[tt[, 1]]
-# tt$g2 <- groups[tt[, 2]]
-# tt$g <- paste(tt$g1, tt$g2, sep = "-")
-# table(tt$g[tt$X3 == 1])
-# table(tt$g[tt$X3 == 2])
 
