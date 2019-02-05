@@ -29,7 +29,7 @@ EMGS <- function(X, v0, v1, lambda, a, b, epsilon = 1e-5, maxitr = 1e4, verbose=
         mranks <- rep(0, dim(X)[2])
         ranks <- X
         for(i in 1:dim(X)[2]){
-            mranks[i] <- length(unique(X[, i])) 
+            mranks[i] <- length(unique(X[, i])) - sum(is.na(unique(X[, i])))
             ranks[, i] <- match(X[, i], sort(unique(X[, i]))) - 1
         }
         # latent_init <- qnorm(t(t(ranks+1) / (mranks+1)))
