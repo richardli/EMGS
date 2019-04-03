@@ -1,10 +1,8 @@
 library(EMGS)
-library(mvtnorm)
 library(tmvtnorm)
 library(ROCR)
 library(huge)
 library(BDgraph)
-library(truncnorm)
 library(corrplot)
 source("../codes/functions.R")
 

@@ -1,5 +1,4 @@
 library(EMGS)
-library(plyr)
 library(huge)
 library(corrplot)
 library(reshape2)
