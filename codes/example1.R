@@ -52,7 +52,7 @@ for(i in 1:dim(omega_path0)[1]){
 	omega_path0[i, , ] <-  cov2cor(omega_path0[i, , ])
 	diag(omega_path0[i, , ]) <- NA
 }
-plot(v0s, rep(0, length(v0s)), ylim = range(c(-.3, omega_path0, omega_path_glasso0), na.rm = TRUE), col = "white", xlab = "v0", main = "EMGS", ylab = "- Partial correlation")
+plot(v0s, rep(0, length(v0s)), ylim = range(c(-.3, omega_path0, omega_path_glasso0), na.rm = TRUE), col = "white", xlab = "v0", main = "EMGS", ylab = "negative partial correlation")
 abline(v = fit.cv$v0.min, lty = 4)
 for(i in 2:M){
 	for(j in 1:(i-1)){
@@ -68,7 +68,7 @@ abline(h = 0, col = "red", lty = 2)
 abline(h = 0.5, col = "red", lty = 2)
 legend("bottomright", lty = c(1, 4), col = c("darkblue", "darkgreen"), c("Edges", "Non-edges"))
 
-plot(glasso.fit$lambda, rep(0, length(glasso.fit$lambda)), ylim = range(c(-.3, omega_path0, omega_path_glasso0), na.rm = TRUE), col = "white", xlab = "rho", main = "Graphical Lasso", ylab = "- Partial correlation")
+plot(glasso.fit$lambda, rep(0, length(glasso.fit$lambda)), ylim = range(c(-.3, omega_path0, omega_path_glasso0), na.rm = TRUE), col = "white", xlab = "rho", main = "Graphical Lasso", ylab = "negative partial correlation")
 abline(v = glasso.cv$rho.min, lty = 4)
 # abline(v = glasso.cv$rho.1se, lty = 4)
 for(i in 2:M){
