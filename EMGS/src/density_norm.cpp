@@ -3,21 +3,21 @@
 #include <math.h> 
 
 vec density_norm(vec &x, double mu, double sigma){
-  vec dens = 1/(sigma*sqrt(2*PI)) * ones<vec>(x.n_elem);    
+  vec dens = 1/(sigma*sqrt(2*3.1415926535897)) * ones<vec>(x.n_elem);    
   dens %= exp(-square(x-mu)/(2 * pow(sigma, 2))); 
   return dens;
 }
 
 
 vec density_norm_log(vec &x, double mu, double sigma){
-  vec dens = -0.5*log(sigma*sigma*2*PI) * ones<vec>(x.n_elem);    
+  vec dens = -0.5*log(sigma*sigma*2*3.1415926535897) * ones<vec>(x.n_elem);    
   dens += -square(x-mu)/(2 * pow(sigma, 2)); 
   return dens;
 }
 
 
 vec density_norm_log_var(vec &x, double mu, vec &sigma2){
-  vec dens = -0.5*log(sigma2*2*PI) ;    
+  vec dens = -0.5*log(sigma2*2*3.1415926535897) ;    
   dens += -square(x-mu)/(2 * sigma2); 
   return dens;
 }
